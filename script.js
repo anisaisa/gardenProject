@@ -1,68 +1,84 @@
+/***********************
+ * THINGSPEAK SETTINGS
+ ***********************/
 const CHANNEL_ID = "3230579";
-const WRITE_API_KEY = "MA66FX2SMGCQA7XW"; // write key
-const FIELD_MOISTURE = 1;
-const FIELD_PUMP = 2;
+const READ_API_KEY = "H3GVTTPQ8L2E4JZ7";
+const WRITE_API_KEY = "MA66FX2SMGCQA7XW";
 
-async function fetchData() {
-  const res = await fetch(
-    `https://api.thingspeak.com/channels/${2345678}/feeds/last.json`
-  );
-  const data = await res.json();
+// URLs
+const READ_URL =
+  `https://api.thingspeak.com/channels/${CHANNEL_ID}/fields/1.json?api_key=${READ_API_KEY}&results=1`;
 
-  const moisture = data.field1 || 0;
-  const pump = data.field2 || 0;
+const WRITE_URL =
+  `https://api.thingspeak.com/update?api_key=${WRITE_API_KEY}`;
 
-  document.getElementById("moisture").innerText = moisture + "%";
-  document.getElementById("bar-fill").style.width = moisture + "%";
+/***********************
+ * READ SOIL MOISTURE
+ ***********************/
+async function loadMoisture() {
+  try {
+    const response = await fetch(READ_URL);
+    const data = await response.json();
 
-  const pumpStatus = document.getElementById("pump-status");
-  pumpStatus.innerText = pump === "1" ? "ON" : "OFF";
-  pumpStatus.className = pump === "1" ? "on" : "off";
-}
-
-function pumpOn() {
-  fetch(`https://api.thingspeak.com/update?api_key=${MA66FX2SMGCQA7XW}&field2=1`);
-}
-
-function pumpOff() {
-  fetch(`https://api.thingspeak.com/update?api_key=${MA66FX2SMGCQA7XW}&field2=0`);
-}
-
-setInterval(fetchData, 20000);
-fetchData();
-
-
-const WRITE_API_KEY = "MA66FX2SMGCQA7XW"; // ThingSpeak write key
-const FIELD_PUMP = 2;
-
-// Update pump status from ThingSpeak
-async function updatePumpStatus() {
-  const res = await fetch(
-    `https://api.thingspeak.com/channels/3230579/fields/${FIELD_PUMP}/last.json`
-  );
-  const data = await res.json();
-
-  const statusEl = document.getElementById("pump-status");
-  if (!statusEl) return;
-
-  if (data.field2 === "1") {
-    statusEl.textContent = "ON";
-    statusEl.className = "status-value pump-on";
-  } else {
-    statusEl.textContent = "OFF";
-    statusEl.className = "status-value pump-off";
+    if (data.feeds.length > 0) {
+      const value = data.feeds[0].field1;
+      if (value !== null) {
+        updateMoistureUI(parseInt(value));
+      }
+    }
+  } catch (error) {
+    console.error("Failed to read ThingSpeak:", error);
   }
 }
 
-// Button actions
-function pumpOn() {
-  fetch(`https://api.thingspeak.com/update?api_key=${WRITE_API_KEY}&field2=1`);
+function updateMoistureUI(value) {
+  const moistureText = document.getElementById("moisture");
+  const moistureFill = document.getElementById("moisture-fill");
+
+  moistureText.innerText = value + "%";
+  moistureFill.style.width = value + "%";
+
+  // Color logic
+  if (value < 30) {
+    moistureFill.style.background = "#e53935"; // red
+  } else if (value < 60) {
+    moistureFill.style.background = "#fbc02d"; // yellow
+  } else {
+    moistureFill.style.background = "#43a047"; // green
+  }
 }
 
-function pumpOff() {
-  fetch(`https://api.thingspeak.com/update?api_key=${WRITE_API_KEY}&field2=0`);
+/***********************
+ * PUMP CONTROL
+ ***********************/
+async function pumpOn() {
+  await sendPumpCommand(1);
+  updatePumpStatus("ON");
 }
 
-// Refresh pump status
-setInterval(updatePumpStatus, 20000);
-updatePumpStatus();
+async function pumpOff() {
+  await sendPumpCommand(0);
+  updatePumpStatus("OFF");
+}
+
+async function sendPumpCommand(value) {
+  try {
+    await fetch(`${WRITE_URL}&field2=${value}`);
+  } catch (error) {
+    console.error("Failed to send pump command:", error);
+  }
+}
+
+function updatePumpStatus(state) {
+  const pumpStatus = document.getElementById("pump-status");
+  pumpStatus.innerText = state;
+
+  pumpStatus.className = "status-value " +
+    (state === "ON" ? "pump-on" : "pump-off");
+}
+
+/***********************
+ * AUTO REFRESH
+ ***********************/
+loadMoisture();
+setInterval(loadMoisture, 20000); // ThingSpeak rate limit
