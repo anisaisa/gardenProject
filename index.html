@@ -4,16 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Garden Guardian</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <div class="container">
+
+    <!-- HEADER -->
     <div class="header">
       <h1>🌿 Garden Guardian</h1>
       <p class="subtitle">Smart Plant Watering System</p>
     </div>
 
+    <!-- SOIL MOISTURE -->
     <div class="moisture-display">
       <div class="moisture-label">💧 Soil Moisture</div>
       <div class="moisture-value" id="moisture">--%</div>
@@ -22,7 +27,9 @@
       </div>
     </div>
 
+    <!-- STATUS CARDS -->
     <div class="status-grid">
+
       <div class="status-card">
         <span class="status-icon">☁️</span>
         <div class="status-label">Source</div>
@@ -34,59 +41,57 @@
         <div class="status-label">Status</div>
         <span class="status-value pump-on">LIVE</span>
       </div>
-    </div>
-    <!-- Pump Control -->
-    <div class="status-grid">
+
       <div class="status-card">
         <span class="status-icon">💦</span>
         <div class="status-label">Pump</div>
-        <span class="status-value" id="pump-status">OFF</span>
+        <span class="status-value pump-off" id="pump-status">OFF</span>
       </div>
 
-      <button class="btn-auto" onclick="pumpAuto()">AUTO</button>
-
-      <div class="status-card">
-        <span class="status-icon">🎛️</span>
-        <div class="status-label">Control</div>
-        <div class="button-group">
-          <button class="btn-on" onclick="pumpOn()">ON</button>
-          <button class="btn-off" onclick="pumpOff()">OFF</button>
-        </div>
-      </div>
     </div>
 
-    <div class="thingspeak-section">
+    <!-- CONTROL BUTTONS -->
+    <div class="control-panel">
+      <button class="btn-auto" onclick="pumpAuto()">AUTO</button>
+      <button class="btn-on" onclick="pumpOn()">ON</button>
+      <button class="btn-off" onclick="pumpOff()">OFF</button>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="charts-grid">
+
+      <!-- Soil Moisture Chart -->
       <div class="chart-container">
-        <div class="chart-title"> Moisture History</div>
+        <div class="chart-title">💧 Moisture History</div>
         <iframe
           src="https://thingspeak.mathworks.com/channels/3230579/charts/1?dynamic=true&results=60"
           loading="lazy">
         </iframe>
       </div>
+
+      <!-- Mode History Chart -->
+      <div class="chart-container">
+        <div class="chart-title">⚙️ Mode History (AUTO / ON / OFF)</div>
+        <iframe
+          src="https://thingspeak.com/channels/3230579/charts/3?dynamic=true&results=60&yaxismin=0&yaxismax=2"
+          loading="lazy">
+        </iframe>
+      </div>
+
+      <!-- Pump Activity Chart -->
+      <div class="chart-container">
+        <div class="chart-title">💦 Pump Activity (ON / OFF)</div>
+        <iframe
+          src="https://thingspeak.com/channels/3230579/charts/2?dynamic=true&results=60&yaxismin=0&yaxismax=1"
+          loading="lazy">
+        </iframe>
+      </div>
+
     </div>
+
   </div>
-  <div class="thingspeak-section">
-  <div class="chart-container">
-    <div class="chart-title">Mode History (AUTO / ON / OFF)</div>
-    <iframe
-      src="https://thingspeak.com/channels/3230579/charts/3?dynamic=true&results=60&yaxismin=0&yaxismax=2"
-      loading="lazy">
-    </iframe>
-  </div>
-</div>
 
-<div class="thingspeak-section">
-  <div class="chart-container">
-    <div class="chart-title">💦 Pump Activity (ON / OFF)</div>
-    <iframe
-      src="https://thingspeak.com/channels/3230579/charts/2?dynamic=true&results=60&yaxismin=0&yaxismax=1"
-      loading="lazy">
-    </iframe>
-  </div>
-</div>
-
-
-
+  <!-- JAVASCRIPT -->
   <script src="script.js"></script>
 </body>
 </html>

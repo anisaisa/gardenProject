@@ -16,15 +16,17 @@ body {
   padding: 20px;
 }
 
+/* MAIN CONTAINER */
 .container {
   background: white;
   border-radius: 32px;
   padding: 45px;
-  max-width: 520px;
+  max-width: 1200px;
   width: 100%;
   box-shadow: 0 30px 90px rgba(0,0,0,0.4);
 }
 
+/* HEADER */
 .header {
   text-align: center;
   margin-bottom: 30px;
@@ -43,6 +45,7 @@ h1 {
   font-size: 0.95em;
 }
 
+/* MOISTURE DISPLAY */
 .moisture-display {
   background: linear-gradient(135deg, #e8f5e9, #e3f2fd);
   border-radius: 24px;
@@ -81,11 +84,12 @@ h1 {
   transition: width 0.8s ease;
 }
 
+/* STATUS GRID */
 .status-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 16px;
-  margin-bottom: 28px;
+  margin-bottom: 30px;
 }
 
 .status-card {
@@ -114,6 +118,7 @@ h1 {
   color: white;
 }
 
+/* STATUS COLORS */
 .mode-auto {
   background: linear-gradient(135deg, #667eea, #764ba2);
 }
@@ -122,34 +127,26 @@ h1 {
   background: linear-gradient(135deg, #4caf50, #45a049);
 }
 
-.chart-container {
-  background: #f7fafc;
-  border-radius: 18px;
-  padding: 20px;
+.pump-off {
+  background: linear-gradient(135deg, #f44336, #e53935);
 }
 
-iframe {
-  width: 100%;
-  height: 260px;
-  border: none;
-  border-radius: 12px;
-}
-
-
-.button-group {
+/* CONTROL BUTTONS */
+.control-panel {
   display: flex;
-  gap: 10px;
   justify-content: center;
+  gap: 15px;
+  margin-bottom: 35px;
 }
 
-.btn-on,
-.btn-off {
-  padding: 10px 16px;
+.control-panel button {
+  padding: 12px 26px;
   border: none;
-  border-radius: 12px;
+  border-radius: 30px;
   font-weight: 600;
   cursor: pointer;
   color: white;
+  font-size: 15px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -161,8 +158,50 @@ iframe {
   background: linear-gradient(135deg, #f44336, #e53935);
 }
 
-.btn-on:hover,
-.btn-off:hover {
+.btn-auto {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.control-panel button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+/* CHARTS GRID */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.chart-container {
+  background: #f7fafc;
+  border-radius: 22px;
+  padding: 20px;
+}
+
+.chart-title {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #2d3748;
+}
+
+/* IFRAME */
+iframe {
+  width: 100%;
+  height: 260px;
+  border: none;
+  border-radius: 14px;
+}
+
+/* MOBILE */
+@media (max-width: 700px) {
+  .container {
+    padding: 30px 20px;
+  }
+
+  .control-panel {
+    flex-direction: column;
+  }
 }
