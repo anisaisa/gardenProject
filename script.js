@@ -5,12 +5,36 @@ const CHANNEL_ID = "3230579";
 const READ_API_KEY = "H3GVTTPQ8L2E4JZ7";
 const WRITE_API_KEY = "MA66FX2SMGCQA7XW";
 
-// URLs
 const READ_URL =
   `https://api.thingspeak.com/channels/${CHANNEL_ID}/fields/1.json?api_key=${READ_API_KEY}&results=1`;
 
 const WRITE_URL =
   `https://api.thingspeak.com/update?api_key=${WRITE_API_KEY}`;
+
+/***********************
+ * RATE LIMIT CONTROL
+ ***********************/
+let buttonsLocked = false;
+const LOCK_TIME = 20000; // 20 seconds
+
+function lockButtons() {
+  buttonsLocked = true;
+
+  document.querySelectorAll("button").forEach(btn => {
+    btn.disabled = true;
+    btn.style.opacity = "0.6";
+    btn.style.cursor = "not-allowed";
+  });
+
+  setTimeout(() => {
+    buttonsLocked = false;
+    document.querySelectorAll("button").forEach(btn => {
+      btn.disabled = false;
+      btn.style.opacity = "1";
+      btn.style.cursor = "pointer";
+    });
+  }, LOCK_TIME);
+}
 
 /***********************
  * READ SOIL MOISTURE
@@ -38,58 +62,61 @@ function updateMoistureUI(value) {
   moistureText.innerText = value + "%";
   moistureFill.style.width = value + "%";
 
-  // Color logic
   if (value < 30) {
-    moistureFill.style.background = "#e53935"; // red
+    moistureFill.style.background = "#e53935";
   } else if (value < 60) {
-    moistureFill.style.background = "#fbc02d"; // yellow
+    moistureFill.style.background = "#fbc02d";
   } else {
-    moistureFill.style.background = "#43a047"; // green
+    moistureFill.style.background = "#43a047";
   }
 }
 
 /***********************
  * PUMP CONTROL
  ***********************/
-async function pumpOn() {
-  await sendPumpCommand(1);
-  updatePumpStatus("ON");
-}
-
-async function pumpOff() {
-  await sendPumpCommand(0);
-  updatePumpStatus("OFF");
-}
-
 async function sendPumpCommand(value) {
+  if (buttonsLocked) {
+    alert("Please wait 20 seconds between commands (ThingSpeak limit)");
+    return;
+  }
+
   try {
     await fetch(`${WRITE_URL}&field2=${value}`);
+    lockButtons();
+
+    if (value === 0) updatePumpStatus("OFF");
+    if (value === 1) updatePumpStatus("ON");
+    if (value === 2) updatePumpStatus("AUTO");
+
   } catch (error) {
     console.error("Failed to send pump command:", error);
   }
+}
+
+function pumpOn() {
+  sendPumpCommand(1);
+}
+
+function pumpOff() {
+  sendPumpCommand(0);
+}
+
+function pumpAuto() {
+  sendPumpCommand(2);
 }
 
 function updatePumpStatus(state) {
   const pumpStatus = document.getElementById("pump-status");
   pumpStatus.innerText = state;
 
-  if (state === "ON") {
-    pumpStatus.className = "status-value pump-on";
-  } else if (state === "OFF") {
-    pumpStatus.className = "status-value pump-off";
-  } else {
-    pumpStatus.className = "status-value mode-auto";
-  }
+  pumpStatus.className =
+    state === "ON" ? "status-value pump-on" :
+    state === "OFF" ? "status-value pump-off" :
+    "status-value mode-auto";
 }
-
-async function pumpAuto() {
-  await sendPumpCommand(2);   // AUTO MODE
-  updatePumpStatus("AUTO");
-}
-
 
 /***********************
  * AUTO REFRESH
  ***********************/
 loadMoisture();
-setInterval(loadMoisture, 20000); // ThingSpeak rate limit
+setInterval(loadMoisture, 20000);
