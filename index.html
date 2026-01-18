@@ -1,24 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Garden Guardian</title>
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="container">
+  <!-- Water Droplets Container -->
+  <div class="water-droplets" id="droplets"></div>
 
+  <div class="container">
     <!-- HEADER -->
     <div class="header">
       <h1>🌿 Garden Guardian</h1>
       <p class="subtitle">Smart Plant Watering System</p>
     </div>
 
-    <!-- SOIL MOISTURE -->
+    <!-- LIVE FEATURES -->
+    <div class="live-features">
+      <!-- Circular Gauge -->
+      <div class="gauge-container">
+        <div class="gauge-title">💧 Live Moisture Level</div>
+        <svg class="gauge-svg" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+              <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <circle class="gauge-bg" cx="100" cy="100" r="80" />
+          <circle id="gauge-circle" class="gauge-fill" cx="100" cy="100" r="80" 
+                  stroke-dasharray="502.65" stroke-dashoffset="502.65"
+                  transform="rotate(-90 100 100)" />
+          <text class="gauge-text" x="100" y="95" text-anchor="middle" id="gauge-value">0%</text>
+          <text class="gauge-label" x="100" y="115" text-anchor="middle">MOISTURE</text>
+        </svg>
+      </div>
+
+      <!-- Soil Visualization -->
+      <div class="soil-viz">
+        <div class="soil-title">🌱 Soil Condition</div>
+        <div class="soil-layers">
+          <div class="soil-layer soil-dry" id="soil-dry" style="height: 100%;"></div>
+          <div class="soil-layer soil-wet" id="soil-wet" style="height: 0%;"></div>
+        </div>
+        <div style="margin-top: 15px; color: rgba(255, 255, 255, 0.7);" id="soil-status">Analyzing...</div>
+      </div>
+
+      <!-- Plant Health -->
+      <div class="plant-health">
+        <div class="gauge-title">🌿 Plant Health</div>
+        <div class="plant-icon" id="plant-icon">🌱</div>
+        <div class="plant-status" id="plant-status">Monitoring...</div>
+      </div>
+    </div>
+
+    <!-- MOISTURE DISPLAY -->
     <div class="moisture-display">
       <div class="moisture-label">💧 Soil Moisture</div>
       <div class="moisture-value" id="moisture">--%</div>
@@ -29,7 +68,6 @@
 
     <!-- STATUS CARDS -->
     <div class="status-grid">
-
       <div class="status-card">
         <span class="status-icon">☁️</span>
         <div class="status-label">Source</div>
@@ -39,46 +77,29 @@
       <div class="status-card">
         <span class="status-icon">📡</span>
         <div class="status-label">Status</div>
-        <span class="status-value pump-on">LIVE</span>
+        <span class="status-value pump-on">
+          <span class="live-indicator"></span>LIVE
+        </span>
       </div>
-
-   
     </div>
-
-
 
     <!-- CHARTS -->
     <div class="charts-grid">
-
-      <!-- Soil Moisture Chart -->
       <div class="chart-container">
         <div class="chart-title">💧 Moisture History</div>
-        <iframe
-          src="https://thingspeak.mathworks.com/channels/3230579/charts/1?dynamic=true&results=60"
-          loading="lazy">
-        </iframe>
+        <iframe src="https://thingspeak.mathworks.com/channels/3230579/charts/1?dynamic=true&results=60" loading="lazy"></iframe>
       </div>
 
-      <!-- Mode History Chart -->
       <div class="chart-container">
         <div class="chart-title">⚙️ Mode History (AUTO / ON / OFF)</div>
-        <iframe
-          src="https://thingspeak.com/channels/3230579/charts/3?dynamic=true&results=60&yaxismin=0&yaxismax=2"
-          loading="lazy">
-        </iframe>
+        <iframe src="https://thingspeak.com/channels/3230579/charts/3?dynamic=true&results=60&yaxismin=0&yaxismax=2" loading="lazy"></iframe>
       </div>
 
-      <!-- Pump Activity Chart -->
       <div class="chart-container">
         <div class="chart-title">💦 Pump Activity (ON / OFF)</div>
-        <iframe
-          src="https://thingspeak.com/channels/3230579/charts/2?dynamic=true&results=60&yaxismin=0&yaxismax=1"
-          loading="lazy">
-        </iframe>
+        <iframe src="https://thingspeak.com/channels/3230579/charts/2?dynamic=true&results=60&yaxismin=0&yaxismax=1" loading="lazy"></iframe>
       </div>
-
     </div>
-
   </div>
 
   <!-- JAVASCRIPT -->

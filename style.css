@@ -47,7 +47,6 @@ body::after {
   50% { transform: scale(1.1); opacity: 0.8; }
 }
 
-/* MAIN CONTAINER */
 .container {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
@@ -61,7 +60,6 @@ body::after {
   z-index: 1;
 }
 
-/* HEADER */
 .header {
   text-align: center;
   margin-bottom: 30px;
@@ -82,6 +80,160 @@ h1 {
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.95em;
   font-weight: 300;
+}
+
+/* LIVE FEATURES SECTION */
+.live-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* CIRCULAR GAUGE */
+.gauge-container {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  padding: 25px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.gauge-title {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9em;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.gauge-svg {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+}
+
+.gauge-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 12;
+}
+
+.gauge-fill {
+  fill: none;
+  stroke: url(#gaugeGradient);
+  stroke-width: 12;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease;
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+}
+
+.gauge-text {
+  font-size: 32px;
+  font-weight: 700;
+  fill: #fff;
+}
+
+.gauge-label {
+  font-size: 12px;
+  fill: rgba(255, 255, 255, 0.6);
+}
+
+/* SOIL VISUALIZATION */
+.soil-viz {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  padding: 25px;
+  text-align: center;
+}
+
+.soil-title {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9em;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.soil-layers {
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.soil-layer {
+  position: absolute;
+  width: 100%;
+  transition: all 1s ease;
+}
+
+.soil-dry {
+  background: linear-gradient(180deg, #8b4513 0%, #a0522d 100%);
+  bottom: 0;
+}
+
+.soil-wet {
+  background: linear-gradient(180deg, #2d5016 0%, #3d6b1f 100%);
+  bottom: 0;
+}
+
+/* PLANT HEALTH */
+.plant-health {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  padding: 25px;
+  text-align: center;
+}
+
+.plant-icon {
+  font-size: 80px;
+  transition: all 0.8s ease;
+  filter: drop-shadow(0 0 15px currentColor);
+}
+
+.plant-status {
+  margin-top: 15px;
+  font-weight: 600;
+  font-size: 1.1em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* WATER DROPLETS */
+.water-droplets {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.droplet {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.8), rgba(16, 185, 129, 0.6));
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(45deg);
+  animation: fall linear forwards;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(45deg);
+    opacity: 0;
+  }
 }
 
 /* MOISTURE DISPLAY */
@@ -165,7 +317,6 @@ h1 {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
 }
 
-/* STATUS GRID */
 .status-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -230,7 +381,6 @@ h1 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* STATUS COLORS */
 .mode-auto {
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
@@ -246,71 +396,22 @@ h1 {
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
 }
 
-/* CONTROL BUTTONS */
-.control-panel {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 35px;
-}
-
-.control-panel button {
-  padding: 14px 32px;
-  border: none;
-  border-radius: 30px;
-  font-weight: 600;
-  cursor: pointer;
-  color: white;
-  font-size: 15px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.control-panel button::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
+.live-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #10b981;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s ease, height 0.6s ease;
+  margin-right: 6px;
+  animation: blink 2s infinite;
+  box-shadow: 0 0 8px #10b981;
 }
 
-.control-panel button:hover::before {
-  width: 300px;
-  height: 300px;
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
-.btn-on {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-}
-
-.btn-off {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-}
-
-.btn-auto {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-}
-
-.control-panel button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-}
-
-.control-panel button:active {
-  transform: translateY(-1px);
-}
-
-/* CHARTS GRID */
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -340,7 +441,6 @@ h1 {
   font-size: 1.05em;
 }
 
-/* IFRAME */
 iframe {
   width: 100%;
   height: 260px;
@@ -349,18 +449,9 @@ iframe {
   background: rgba(0, 0, 0, 0.2);
 }
 
-/* MOBILE */
 @media (max-width: 700px) {
   .container {
     padding: 30px 20px;
-  }
-
-  .control-panel {
-    flex-direction: column;
-  }
-  
-  .control-panel button {
-    width: 100%;
   }
   
   h1 {
@@ -369,5 +460,9 @@ iframe {
   
   .moisture-value {
     font-size: 3em;
+  }
+
+  .live-features {
+    grid-template-columns: 1fr;
   }
 }
