@@ -42,12 +42,7 @@
         <span class="status-value pump-on">LIVE</span>
       </div>
 
-      <div class="status-card">
-        <span class="status-icon">💦</span>
-        <div class="status-label">Pump</div>
-        <span class="status-value pump-off" id="pump-status">OFF</span>
-      </div>
-
+   
     </div>
 
 
@@ -74,8 +69,13 @@
       </div>
 
       <!-- Pump Activity Chart -->
-    
-      
+      <div class="chart-container">
+        <div class="chart-title">💦 Pump Activity (ON / OFF)</div>
+        <iframe
+          src="https://thingspeak.com/channels/3230579/charts/2?dynamic=true&results=60&yaxismin=0&yaxismax=1"
+          loading="lazy">
+        </iframe>
+      </div>
 
     </div>
 
