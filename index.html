@@ -57,7 +57,7 @@
 
     <div class="thingspeak-section">
       <div class="chart-container">
-        <div class="chart-title">📊 Moisture History</div>
+        <div class="chart-title"> Moisture History</div>
         <iframe
           src="https://thingspeak.mathworks.com/channels/3230579/charts/1?dynamic=true&results=60"
           loading="lazy">
@@ -65,6 +65,27 @@
       </div>
     </div>
   </div>
+  <div class="thingspeak-section">
+  <div class="chart-container">
+    <div class="chart-title">Mode History (AUTO / ON / OFF)</div>
+    <iframe
+      src="https://thingspeak.com/channels/3230579/charts/3?dynamic=true&results=60&yaxismin=0&yaxismax=2"
+      loading="lazy">
+    </iframe>
+  </div>
+</div>
+
+<div class="thingspeak-section">
+  <div class="chart-container">
+    <div class="chart-title">💦 Pump Activity (ON / OFF)</div>
+    <iframe
+      src="https://thingspeak.com/channels/3230579/charts/2?dynamic=true&results=60&yaxismin=0&yaxismax=1"
+      loading="lazy">
+    </iframe>
+  </div>
+</div>
+
+
 
   <script src="script.js"></script>
 </body>
