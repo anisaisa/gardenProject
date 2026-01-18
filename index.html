@@ -42,9 +42,24 @@
       <!-- Soil Visualization -->
       <div class="soil-viz">
         <div class="soil-title">🌱 Soil Condition</div>
-        <div class="soil-layers">
-          <div class="soil-layer soil-dry" id="soil-dry" style="height: 100%;"></div>
-          <div class="soil-layer soil-wet" id="soil-wet" style="height: 0%;"></div>
+        <div class="plant-pot-container">
+          <!-- Plant growing from pot -->
+          <div class="plant-growth" id="plant-growth">
+            <div class="leaf leaf-left">🍃</div>
+            <div class="plant-stem"></div>
+            <div class="leaf leaf-right">🍃</div>
+          </div>
+          
+          <!-- Pot shape -->
+          <div class="pot">
+            <div class="pot-rim"></div>
+            <div class="pot-body">
+              <div class="soil-container">
+                <div class="soil-layer soil-dry" id="soil-dry"></div>
+                <div class="soil-layer soil-wet" id="soil-wet"></div>
+              </div>
+            </div>
+          </div>
         </div>
         <div style="margin-top: 15px; color: rgba(255, 255, 255, 0.7);" id="soil-status">Analyzing...</div>
       </div>

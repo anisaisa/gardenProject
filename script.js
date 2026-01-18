@@ -53,23 +53,31 @@ function updateGauge(value) {
 }
 
 /***********************
- * SOIL VISUALIZATION
+ * SOIL VISUALIZATION - PLANT POT
  ***********************/
 function updateSoilViz(value) {
   const soilDry = document.getElementById('soil-dry');
   const soilWet = document.getElementById('soil-wet');
   const soilStatus = document.getElementById('soil-status');
+  const plantGrowth = document.getElementById('plant-growth');
   
+  // Update soil layers
   soilWet.style.height = value + '%';
-  soilDry.style.height = (100 - value) + '%';
   
+  // Update plant size based on moisture
   if (value < 30) {
+    plantGrowth.style.transform = 'translateX(-50%) scale(0.6)';
+    plantGrowth.style.opacity = '0.6';
     soilStatus.textContent = '🔥 Dry Soil - Needs Water';
     soilStatus.style.color = '#ef4444';
   } else if (value < 60) {
+    plantGrowth.style.transform = 'translateX(-50%) scale(0.85)';
+    plantGrowth.style.opacity = '0.85';
     soilStatus.textContent = '💧 Moderate Moisture';
     soilStatus.style.color = '#fbbf24';
   } else {
+    plantGrowth.style.transform = 'translateX(-50%) scale(1)';
+    plantGrowth.style.opacity = '1';
     soilStatus.textContent = '✅ Well Hydrated';
     soilStatus.style.color = '#10b981';
   }
