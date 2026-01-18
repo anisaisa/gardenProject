@@ -73,9 +73,20 @@ function updatePumpStatus(state) {
   const pumpStatus = document.getElementById("pump-status");
   pumpStatus.innerText = state;
 
-  pumpStatus.className = "status-value " +
-    (state === "ON" ? "pump-on" : "pump-off");
+  if (state === "ON") {
+    pumpStatus.className = "status-value pump-on";
+  } else if (state === "OFF") {
+    pumpStatus.className = "status-value pump-off";
+  } else {
+    pumpStatus.className = "status-value mode-auto";
+  }
 }
+
+async function pumpAuto() {
+  await sendPumpCommand(2);   // AUTO MODE
+  updatePumpStatus("AUTO");
+}
+
 
 /***********************
  * AUTO REFRESH
