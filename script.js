@@ -6,20 +6,21 @@ const READ_API_KEY = "H3GVTTPQ8L2E4JZ7";
 
 const READ_URL = `https://api.thingspeak.com/channels/${CHANNEL_ID}/fields/1.json?api_key=${READ_API_KEY}&results=1`;
 
-/***********************
- * AI RECOMMENDATION
- ***********************/
-fetch("http://34.65.254.60:5000/recommendation")
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById("summary").innerText = data.summary;
-    document.getElementById("recommendation").innerText = data.recommendation;
-  })
-  .catch(error => {
-    console.error("AI fetch failed:", error);
-    document.getElementById("recommendation").innerText =
-      "Failed to load AI recommendation";
-  });
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("https://irrigation-api-858534128806.europe-west1.run.app/recommendation")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("summary").innerText = data.summary;
+      document.getElementById("recommendation").innerText = data.recommendation;
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("recommendation").innerText =
+        "Failed to load AI recommendation";
+    });
+});
+
 
 /***********************
  * WATER DROPLET ANIMATION
@@ -123,19 +124,6 @@ async function loadMoisture() {
     console.error("ThingSpeak error:", error);
   }
 }
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("https://irrigation-api-858534128806.europe-west1.run.app/recommendation")
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("summary").innerText = data.summary;
-      document.getElementById("recommendation").innerText = data.recommendation;
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById("recommendation").innerText =
-        "Failed to load AI recommendation";
-    });
-});
 
 
 /***********************
