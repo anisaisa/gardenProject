@@ -123,6 +123,20 @@ async function loadMoisture() {
     console.error("ThingSpeak error:", error);
   }
 }
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("https://irrigation-api-858534128806.europe-west1.run.app/recommendation")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("summary").innerText = data.summary;
+      document.getElementById("recommendation").innerText = data.recommendation;
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("recommendation").innerText =
+        "Failed to load AI recommendation";
+    });
+});
+
 
 /***********************
  * AUTO REFRESH
