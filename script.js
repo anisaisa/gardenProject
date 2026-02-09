@@ -6,30 +6,7 @@ const READ_API_KEY = "H3GVTTPQ8L2E4JZ7";
 
 const READ_URL = `https://api.thingspeak.com/channels/${CHANNEL_ID}/fields/1.json?api_key=${READ_API_KEY}&results=1`;
 
-window.addEventListener("load", () => {
-  const summaryEl = document.getElementById("summary");
-  const recEl = document.getElementById("recommendation");
 
-  if (!summaryEl || !recEl) {
-    console.error("Summary or recommendation element not found");
-    return;
-  }
-
-  fetch("https://irrigation-api-858534128806.europe-west1.run.app/recommendation")
-    .then(response => {
-      console.log("AI response status:", response.status);
-      return response.json();
-    })
-    .then(data => {
-      console.log("AI data:", data);
-      summaryEl.innerText = data.summary;
-      recEl.innerText = data.recommendation;
-    })
-    .catch(error => {
-      console.error("AI fetch failed:", error);
-      recEl.innerText = "Failed to load AI recommendation";
-    });
-});
 
 
 
