@@ -111,6 +111,21 @@ function updatePlantHealth(value) {
   }
 }
 
+
+fetch("http://34.65.254.60:5000/recommendation")
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById("summary").innerText = data.summary;
+    document.getElementById("recommendation").innerText = data.recommendation;
+  })
+  .catch(error => {
+    console.error(error);
+    document.getElementById("recommendation").innerText =
+      "Failed to load recommendation";
+  });
+
+
+
 /***********************
  * READ SOIL MOISTURE
  ***********************/
@@ -149,6 +164,7 @@ function updateMoistureUI(value) {
     moistureFill.style.background = "linear-gradient(90deg, #10b981, #059669)";
   }
 }
+
 
 /***********************
  * AUTO REFRESH
